@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as MattersRouteImport } from './routes/matters'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MattersIdRouteImport } from './routes/matters.$id'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MattersRoute = MattersRouteImport.update({
   id: '/matters',
   path: '/matters',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/matters': typeof MattersRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/matters/$id': typeof MattersIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/matters': typeof MattersRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/matters/$id': typeof MattersIdRoute
 }
 export interface FileRoutesById {
@@ -52,24 +60,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/matters': typeof MattersRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/matters/$id': typeof MattersIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/matters' | '/matters/$id'
+  fullPaths: '/' | '/auth' | '/matters' | '/sitemap.xml' | '/matters/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/matters' | '/matters/$id'
-  id: '__root__' | '/' | '/auth' | '/matters' | '/matters/$id'
+  to: '/' | '/auth' | '/matters' | '/sitemap.xml' | '/matters/$id'
+  id: '__root__' | '/' | '/auth' | '/matters' | '/sitemap.xml' | '/matters/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   MattersRoute: typeof MattersRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/matters': {
       id: '/matters'
       path: '/matters'
@@ -116,6 +133,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   MattersRoute: MattersRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
