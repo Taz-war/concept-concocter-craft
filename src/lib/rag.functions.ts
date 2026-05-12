@@ -77,12 +77,12 @@ export const processDocument = createServerFn({ method: "POST" })
       const buf = new Uint8Array(await file.arrayBuffer());
       const { extractText, getDocumentProxy } = await import("unpdf");
       const pdf = await getDocumentProxy(buf);
-      const pageCount = pdf.numPages;
-      const pages: { page: number; text: string }[] = [];
-      for (let p = 1; p <= pageCount; p++) {
-        const { text } = await extractText(pdf, { mergePages: false, pageNumbers: [p] });
-        pages.push({ page: p, text: Array.isArray(text) ? text.join(" ") : String(text) });
-      }
+      const { totalPages, text } = await extractText(pdf, { mergePages: false });
+      const pageCount = totalPages;
+      const pages: { page: number; text: string }[] = text.map((t, i) => ({
+        page: i + 1,
+        text: String(t ?? ""),
+      }));
 
       const chunks = chunkText("", pages);
       if (chunks.length === 0) throw new Error("No text could be extracted from this PDF.");
