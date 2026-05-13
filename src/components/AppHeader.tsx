@@ -1,16 +1,19 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Scale, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 
 export function AppHeader() {
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <header className="border-b border-border bg-card/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <Scale className="h-5 w-5 text-primary" />
           <span className="font-display text-xl font-semibold text-primary">
             SecureCase <span className="text-accent">AI</span>
@@ -20,9 +23,8 @@ export function AppHeader() {
           {user ? (
             <>
               <Link
-                to="/matters"
+                href="/matters"
                 className="text-sm font-medium text-foreground/80 hover:text-foreground"
-                activeProps={{ className: "text-sm font-semibold text-primary" }}
               >
                 Matters
               </Link>
@@ -31,7 +33,7 @@ export function AppHeader() {
                 size="sm"
                 onClick={async () => {
                   await signOut();
-                  navigate({ to: "/" });
+                  router.push("/");
                 }}
               >
                 <LogOut className="mr-2 h-4 w-4" /> Sign out
@@ -39,7 +41,7 @@ export function AppHeader() {
             </>
           ) : (
             <Button asChild size="sm">
-              <Link to="/auth">Sign in</Link>
+              <Link href="/auth">Sign in</Link>
             </Button>
           )}
         </nav>

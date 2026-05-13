@@ -1,0 +1,32 @@
+{
+  "node": {
+    "4023ca70def793d209b46b12b42d4b48295ecc2fda": {
+      "workers": {
+        "app/matters/[id]/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.18_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Flaptopheaven%2FDocuments%2FProjects%2Fconcept-concocter-craft%2Fsrc%2Flib%2Frag.functions.ts%22%2C%5B%7B%22id%22%3A%224023ca70def793d209b46b12b42d4b48295ecc2fda%22%2C%22exportedName%22%3A%22queryMatter%22%2C%22filename%22%3A%22lib%2Frag.functions.ts%22%7D%2C%7B%22id%22%3A%22402a0938a534183d81c3defacf2ccd37fc623f1326%22%2C%22exportedName%22%3A%22processDocument%22%2C%22filename%22%3A%22lib%2Frag.functions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/matters/[id]/page": "action-browser"
+      },
+      "filename": "lib/rag.functions.ts",
+      "exportedName": "queryMatter"
+    },
+    "402a0938a534183d81c3defacf2ccd37fc623f1326": {
+      "workers": {
+        "app/matters/[id]/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.18_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Flaptopheaven%2FDocuments%2FProjects%2Fconcept-concocter-craft%2Fsrc%2Flib%2Frag.functions.ts%22%2C%5B%7B%22id%22%3A%224023ca70def793d209b46b12b42d4b48295ecc2fda%22%2C%22exportedName%22%3A%22queryMatter%22%2C%22filename%22%3A%22lib%2Frag.functions.ts%22%7D%2C%7B%22id%22%3A%22402a0938a534183d81c3defacf2ccd37fc623f1326%22%2C%22exportedName%22%3A%22processDocument%22%2C%22filename%22%3A%22lib%2Frag.functions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/matters/[id]/page": "action-browser"
+      },
+      "filename": "lib/rag.functions.ts",
+      "exportedName": "processDocument"
+    }
+  },
+  "edge": {},
+  "encryptionKey": "yzC63PjmAkAXVc6BcWJwJhrpoR6c/T/qy8FyOoZRvmQ="
+}
