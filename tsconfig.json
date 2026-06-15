@@ -23,5 +23,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/routes", "src/routeTree.gen.ts", "src/router.tsx", "src/server.ts", "src/integrations/supabase/auth-middleware.ts", "src/start.ts", "vite.config.ts"]
 }

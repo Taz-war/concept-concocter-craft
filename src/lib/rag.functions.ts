@@ -15,7 +15,7 @@ async function getAuth() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: any[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
@@ -145,7 +145,6 @@ export async function processDocument(input: { documentId: string }) {
     if (dlErr || !file) throw new Error(`Download failed: ${dlErr?.message}`);
 
     const buf = new Uint8Array(await file.arrayBuffer());
-    // @ts-ignore — unpdf has no type declarations
     const { extractText, getDocumentProxy } = await import("unpdf");
     const pdf = await getDocumentProxy(buf);
     const { totalPages, text } = await extractText(pdf, { mergePages: false });
@@ -170,7 +169,7 @@ export async function processDocument(input: { documentId: string }) {
       page_number: c.page,
     }));
 
-    const { error: insErr } = await supabase.from("chunks").insert(rows);
+    const { error: insErr } = await supabase.from("chunks").insert(rows as any);
     if (insErr) throw new Error(`Insert chunks failed: ${insErr.message}`);
 
     await supabase
@@ -192,7 +191,7 @@ export async function processDocument(input: { documentId: string }) {
         pages: pageCount,
         chunks: rows.length,
       },
-    });
+    } as any);
 
     return { ok: true, pages: pageCount, chunks: rows.length };
   } catch (e) {
@@ -314,13 +313,13 @@ export async function queryMatter(input: {
     source_documents: sources,
     model_used: model,
     tokens_used: tokensUsed,
-  });
+  } as any);
   await supabase.from("audit_logs").insert({
     user_id: userId,
     matter_id: input.matterId,
     action: "query",
     details: { tokens: tokensUsed },
-  });
+  } as any);
 
   return { answer, sources, model, tokensUsed };
 }

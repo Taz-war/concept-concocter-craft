@@ -109,7 +109,7 @@ function MatterWorkspace() {
       if (!user) throw new Error("Not signed in");
       if (file.type !== "application/pdf") throw new Error("Only PDF files are supported.");
       if (file.size > 50 * 1024 * 1024) throw new Error("File exceeds 50 MB limit.");
-      const safe = file.name.replace(/[^\w.\-]+/g, "_");
+      const safe = file.name.replace(/[^\w.-]+/g, "_");
       const path = `${user.id}/${id}/${Date.now()}-${safe}`;
       const { error: upErr } = await supabase.storage
         .from("case-documents")
@@ -123,19 +123,20 @@ function MatterWorkspace() {
           storage_path: path,
           file_size: file.size,
           uploaded_by: user.id,
-        })
+        } as any)
         .select()
         .single();
       if (insErr) throw insErr;
+      const documentId = (doc as any)?.id;
       await supabase.from("audit_logs").insert({
         user_id: user.id,
         matter_id: id,
         action: "upload_document",
-        details: { document_id: doc.id, filename: file.name },
-      });
+        details: { document_id: documentId, filename: file.name },
+      } as any);
       qc.invalidateQueries({ queryKey: ["documents", id] });
       // fire-and-await processing (but don't await long; show optimistic)
-      await processDocument({ documentId: doc.id });
+      await processDocument({ documentId });
       qc.invalidateQueries({ queryKey: ["documents", id] });
     },
     onError: (e: Error) => toast.error(e.message),
@@ -152,7 +153,7 @@ function MatterWorkspace() {
         matter_id: id,
         action: "delete_document",
         details: { document_id: doc.id },
-      });
+      } as any);
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["documents", id] }),
     onError: (e: Error) => toast.error(e.message),
@@ -347,9 +348,8 @@ function DropZone({ onFile, disabled }: { onFile: (f: File) => void; disabled?: 
         const f = e.dataTransfer.files?.[0];
         if (f) onFile(f);
       }}
-      className={`rounded-lg border-2 border-dashed p-6 text-center transition ${
-        over ? "border-accent bg-accent/10" : "border-border bg-card"
-      } ${disabled ? "opacity-60" : ""}`}
+      className={`rounded-lg border-2 border-dashed p-6 text-center transition ${over ? "border-accent bg-accent/10" : "border-border bg-card"
+        } ${disabled ? "opacity-60" : ""}`}
     >
       <Upload className="mx-auto h-6 w-6 text-muted-foreground" />
       <p className="mt-2 text-sm font-medium">Drop a PDF here</p>

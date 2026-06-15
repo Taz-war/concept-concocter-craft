@@ -62,16 +62,17 @@ function MattersPage() {
     mutationFn: async (m: Omit<Matter, "id" | "created_at">) => {
       const { data, error } = await supabase
         .from("matters")
-        .insert({ ...m, user_id: user!.id })
+        .insert({ ...m, user_id: user!.id } as any)
         .select()
         .single();
       if (error) throw error;
+      const matterId = (data as any)?.id;
       await supabase.from("audit_logs").insert({
         user_id: user!.id,
-        matter_id: data.id,
+        matter_id: matterId,
         action: "create_matter",
         details: { case_number: m.case_number },
-      });
+      } as any);
       return data;
     },
     onSuccess: () => {
